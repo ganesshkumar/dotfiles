@@ -1,13 +1,48 @@
 require("variables")
 
+-- Global hotkey modifiers
+hotkey1 = {"alt"}
+hotkey2 = {"shift", "alt"}
+
+------------------------------------------------
+------------- Appplicaion focusing -------------
+------------------------------------------------
+
+-- Windows with letter bindings
+apps = {
+ ["Firefox"] = "f",
+ ["iTerm2"] = "i",
+}
+
+function focus_app(name)
+    -- Get the app however we can.
+    local app = hs.appfinder.appFromName(name)
+    if app == nil then
+        app = hs.appfinder.appFromWindowTitle(name)
+    end
+    if app == nil then
+        app = hs.appfinder.appFromWindowTitlePattern(name)
+    end
+
+    if app == nil then
+        hs.alert.show("Could not find " .. name, 1)
+    else
+        app:activate(true)
+    end
+    return app
+end
+
+-- Bind windows to hotkeys
+for name, key in pairs(apps) do
+    hs.hotkey.bind(hotkey1, key, function() focus_app(name) end)
+end
+
 ------------------------------------------------
 ------------ Wifi ssid based tasks -------------
 ------------------------------------------------
 
 local wifiWatcher = nil
 local lastSSID = hs.wifi.currentNetwork()
-
-hs.alert.show(homeSSID)
 
 function writeLocationToFile(text)    
     local file = io.open(automate_location_wifi, "w+")
