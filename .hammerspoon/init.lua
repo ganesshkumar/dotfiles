@@ -11,7 +11,7 @@ hotkey2 = {"shift", "alt"}
 -- Windows with letter bindings
 apps = {
  ["Firefox"] = "f",
- ["iTerm2"] = "i",
+ ["iTerm"] = "i",
  ["IntelliJ IDEA"] = "j"
 }
 
@@ -25,7 +25,7 @@ function focus_app(name)
         app = hs.appfinder.appFromWindowTitlePattern(name)
     end
 
-    if app == nil then
+    if app == nil and not hs.application.launchOrFocus(name) then
         hs.alert.show("Could not find " .. name, 1)
     else
         app:activate(true)
