@@ -12,7 +12,8 @@ hotkey2 = {"shift", "alt"}
 apps = {
  ["Firefox"] = "f",
  ["iTerm"] = "i",
- ["IntelliJ IDEA"] = "j"
+ ["IntelliJ IDEA"] = "j",
+ ["Dota 2"] = "d"
 }
 
 function focus_app(name)
