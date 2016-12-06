@@ -11,9 +11,10 @@ hotkey2 = {"shift", "alt"}
 -- Windows with letter bindings
 apps = {
  ["Firefox"] = "f",
- ["iTerm"] = "i",
- ["IntelliJ IDEA"] = "j",
- ["Dota 2"] = "d"
+ ["iTerm"] = "t",
+ ["IntelliJ IDEA"] = "i",
+ ["Dota 2"] = "d",
+ ["Finder"] = "1"
 }
 
 function focus_app(name)
