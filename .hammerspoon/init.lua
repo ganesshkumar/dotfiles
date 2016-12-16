@@ -14,6 +14,7 @@ apps = {
  ["iTerm"] = "t",
  ["IntelliJ IDEA"] = "i",
  ["Dota 2"] = "d",
+ ["Spotify"] = "s",
  ["Finder"] = "1"
 }
 
