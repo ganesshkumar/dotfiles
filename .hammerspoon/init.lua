@@ -1,4 +1,5 @@
 require("variables")
+require("caffeine")
 
 -- Global hotkey modifiers
 hotkey1 = {"alt"}
@@ -10,36 +11,19 @@ hotkey2 = {"shift", "alt"}
 
 -- Windows with letter bindings
 apps = {
- ["FirefoxDeveloperEdition"] = "f",
- ["iTerm"] = "t",
- ["IntelliJ IDEA"] = "i",
- ["Dota 2"] = "d",
- ["Spotify"] = "s",
- ["Finder"] = "1",
- ["Google Chrome"] = "c"
+  ["f"] = "FirefoxDeveloperEdition",
+  ["a"] = "Atom",
+  ["t"] = "iTerm",
+  ["i"] = "IntelliJ IDEA",
+  ["d"] = "Dota 2",
+  ["s"] = "Spotify",
+  ["c"] = "Google Chrome",
+  ["1"] = "Finder"
 }
 
-function focus_app(name)
-    -- Get the app however we can.
-    local app = hs.appfinder.appFromName(name)
-    if app == nil then
-        app = hs.appfinder.appFromWindowTitle(name)
-    end
-    if app == nil then
-        app = hs.appfinder.appFromWindowTitlePattern(name)
-    end
-
-    if app == nil and not hs.application.launchOrFocus(name) then
-        hs.alert.show("Could not find " .. name, 1)
-    else
-        app:activate(true)
-    end
-    return app
-end
-
 -- Bind windows to hotkeys
-for name, key in pairs(apps) do
-    hs.hotkey.bind(hotkey1, key, function() focus_app(name) end)
+for key, name in pairs(apps) do
+    hs.hotkey.bind(hotkey1, key, function() hs.application.launchOrFocus(name) end)
 end
 
 ------------------------------------------------
@@ -48,32 +32,14 @@ end
 
 local wifiWatcher = nil
 
-function writeLocationToFile(text)
-    local file = io.open(automate_location_wifi, "w+")
-    file:write(text)
-    file:flush()
-    file:close()
-end
-
-function showBrowser()
-    local wv = hs.webview.new(hs.screen.primaryScreen():frame())
-    wv:url("http://www.google.com"):windowStyle({"titled", "closable", "resizable"}) :show()
-    -- bring the webview to front
-    hs.application.get("Hammerspoon"):activate()
-end
-
 function ssidChangedCallback()
     newSSID = hs.wifi.currentNetwork()
 
     if newSSID == homeSSID then
         hs.notify.new({title="You are at Home", informativeText="Relax"}):send()
-        writeLocationToFile("home")
     elseif newSSID == officePrimarySSID then
         hs.execute("connectTo91SBWifi", true)
         hs.notify.new({title="You are at Office", informativeText="Let's brew some code"}):send()
-        writeLocationToFile("office")
-    else
-        writeLocationToFile("unknown")
     end
 end
 
