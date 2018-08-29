@@ -21,6 +21,7 @@
     "editor.tabSize": 2
   },
   "editor.minimap.enabled": false,
+  "editor.renderWhitespace": "all",
   "explorer.confirmDragAndDrop": false,
   "workbench.statusBar.feedback.visible": false,
   "workbench.editor.showTabs": true,
